@@ -134,7 +134,7 @@ class TODO:
                                 del self.marked_tasks[key]
                             return True , f"Task '{task}' deleted successfully"
                 else:
-                    return False, f"Task '{self.tasks.replace("[ ] ","",1).replace("[✔] ","",1)}' not exist in the list"
+                    return False, f"Task '{task}' not exist in the list"
             elif priority is not None:
                 if priority in self.tasks.keys():
                     del self.tasks[priority]
@@ -164,13 +164,18 @@ def run():
         print("---------- TODO Application MENU ----------")
         print("1: Add Task\n2: View Tasks\n3: Mark Task as Completed\n4: Unmark Task as Uncompleted\n5: Delete Task\n6: Clear All Tasks\n7: Exit Application")
         
-        choice = input("Enter your choice num (1-7) or press enter to exit : ")
+        choice = input("Enter your choice num (1-7) or press enter to exit : ").strip()
 
         if choice in ['1','2','3','4','5','6','7','']:
             if choice == '1':
-                task = input("Enter Task: ").strip()
+                task = input("\nEnter Task: ").strip()
                 priority = input("Enter Priority in numbers only or leave empty by pressing entery key (optional): ").strip()
-                priority = int(priority) if priority != '' else None
+                try:
+                    priority = int(priority) if priority != '' else None
+                except :
+                    priority = None
+                    print("\nPriority should be a number only, it will be assigned automatically")
+                
                 succcess,msg = todo.add_task(task.lower(),priority)
                 print(msg)
                 print("------------------------------------------\n")
@@ -186,28 +191,42 @@ def run():
                 print("------------------------------------------\n")
 
             elif choice == '3':
-                task = input("Enter Task to be marked as completed or leave empty by pressing entery key (optional): ").strip()
+                task = input("\nEnter Task to be marked as completed or leave empty by pressing entery key (optional): ").strip()
                 priority = input("Enter Priority in numbers only f the task to be marked as completed  or leave empty by pressing entery key (optional): ").strip()   
                 task = task.lower() if task != '' else None
-                priority = int(priority) if priority != '' else None
+                try:
+                    priority = int(priority) if priority != '' else None
+                except :
+                    priority = None
+                    print("\nPriority should be a number only, it will be assigned automatically")
                 succcess,msg = todo.mark_tasks(task,priority)
                 print(msg)
                 print("------------------------------------------\n")
 
             elif choice == '4':
-                task = input("Enter Task to be unmarked as uncompleted or leave empty by pressing entery key (optional): ").strip()
+                task = input("\nEnter Task to be unmarked as uncompleted or leave empty by pressing entery key (optional): ").strip()
                 priority = input("Enter Priority in numbers only f the task to be unmarked as uncompleted  or leave empty by pressing entery key (optional): ").strip()   
                 task = task.lower() if task != '' else None
-                priority = int(priority) if priority != '' else None
+                try:
+                    priority = int(priority) if priority != '' else None
+                except :
+                    priority = None
+                    print("\nPriority should be a number only, it will be assigned automatically")
+                
                 succcess,msg = todo.unmark_tasks(task,priority)
                 print(msg)
                 print("------------------------------------------\n")
             
             elif choice == '5':
-                task = input("Enter Task to be deleted or leave empty by pressing entery key (optional): ").strip()
+                task = input("\nEnter Task to be deleted or leave empty by pressing entery key (optional): ").strip()
                 priority = input("Enter Priority in numbers only f the task to be deleted  or leave empty by pressing entery key (optional): ").strip()   
                 task = task.lower() if task != '' else None
-                priority = int(priority) if priority != '' else None
+                try:
+                    priority = int(priority) if priority != '' else None
+                except :
+                    priority = None
+                    print("\nPriority should be a number only, it will be assigned automatically")
+                
                 succcess,msg = todo.delete_task(task,priority)
                 print(msg)
                 print("------------------------------------------\n")
@@ -236,4 +255,4 @@ def run():
                 
 
         
-run()    
+run()   
