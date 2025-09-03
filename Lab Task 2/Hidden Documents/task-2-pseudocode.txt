@@ -1,0 +1,43 @@
+START
+
+  movies ← [
+    ("Eternal Sunshine of the Spotless Mind", 20000000),
+    ("Memento", 9000000),
+    ("Requiem for a Dream", 4500000),
+    ("Pirates of the Caribbean: On Stranger Tides", 379000000),
+    ("Avengers: Age of Ultron", 365000000),
+    ("Avengers: Endgame", 356000000),
+    ("Incredibles 2", 200000000)
+  ]
+
+  ASK user "Do you want to add more movies? (yes/no)"
+  IF answer = "yes" THEN
+      ASK user "How many movies to add?"
+      FOR i FROM 1 TO number_of_movies
+          ASK user "Enter movie name"
+          ASK user "Enter movie budget"
+          APPEND (movie_name, movie_budget) TO movies
+      END FOR
+  END IF
+
+  total_budget = 0
+  FOR each movie IN movies
+      total_budget = total_budget + movie.budget
+  END FOR
+
+  average_budget = total_budget ÷ number_of_movies
+
+  PRINT "Average budget: ", average_budget
+
+  count_above_average = 0
+  FOR each movie IN movies
+      IF movie.budget > average_budget THEN
+          difference = movie.budget - average_budget
+          PRINT movie.name, "is above average by", difference
+          count_above_average = count_above_average + 1
+      END IF
+  END FOR
+
+  PRINT "Number of movies above average budget:", count_above_average
+
+END

@@ -1,0 +1,46 @@
+START
+  
+  SET score TO 0
+  SET previous_number TO 0
+
+  
+  PRINT "Enter the starting number of the range:"
+  READ min_range
+  PRINT "Enter the ending number of the range:"
+  READ max_range
+
+
+  LOOP FOREVER
+
+    SET current_number TO a random integer between min_range and max_range
+
+    SET running_total TO previous_number + current_number
+
+
+    PRINT "The previous number was" + previous_number + "."
+    PRINT "The current number is" + current_number + "."
+    PRINT "Your guess:"
+    READ user_guess
+
+    IF running_total IS divisible by 3 AND running_total IS divisible by 5 THEN
+      SET correct_answer TO "fizzbuzz"
+    ELSE IF running_total IS divisible by 3 THEN
+      SET correct_answer TO "fizz"
+    ELSE IF running_total IS divisible by 5 THEN
+      SET correct_answer TO "buzz"
+    ELSE
+      SET correct_answer TO running_total as a string
+
+    IF user_guess IS EQUAL TO correct_answer THEN
+      INCREMENT score BY 1
+      PRINT "Correct! Score:" + score
+
+      SET previous_number TO current_number
+    ELSE
+      PRINT "Game Over! The correct answer was" + correct_answer + "."
+      PRINT "You guessed" + score + "numbers correctly."
+      BREAK LOOP
+    END IF
+  END LOOP
+
+END
