@@ -1,0 +1,64 @@
+START
+
+DEFINE CLASS ModelBaseAgent
+    FUNCTION __init__(threshold, FilePath="file.txt")
+        SET self.threshold = threshold
+        SET self.FilePath = FilePath
+
+    FUNCTION retrieve_content()
+        TRY
+            OPEN FilePath in read mode
+            READ all lines into content
+            RETURN content
+        IF file not found
+            CREATE an empty file
+            RETURN False
+
+    FUNCTION store_content(string)
+        OPEN FilePath in append mode
+        WRITE string + newline
+        RETURN True
+
+    FUNCTION neurons(current_temp)
+        SET self.current_temp = current_temp
+
+    FUNCTION operation()
+        IF current_temp > threshold
+            SET string = "current_temp , AC ON KRDO"
+            CALL store_content(string)
+            RETURN "AC ON KRDO"
+        ELSE
+            SET string = "current_temp , AC OFF KRDO"
+            CALL store_content(string)
+            RETURN "AC OFF KRDO"
+
+    FUNCTION operator()
+        SET content = retrieve_content()
+        IF content exists
+            EXTRACT list_of_temps from file (split before comma)
+            EXTRACT list_of_actions from file (split after comma)
+            IF current_temp in list_of_temps
+                GET index of current_temp
+                GET action from list_of_actions at index
+                PRINT current_temp + " ==> " + action + " From Memory"
+            ELSE
+                CALL operation() and PRINT result
+        ELSE
+            CALL operation() and PRINT result
+
+END CLASS
+
+
+
+DEFINE dictionary rooms = { "room_name" : temperature, ... }
+
+FOR each room, temp in rooms
+    PRINT room name
+    CREATE object model = ModelBaseAgent(threshold = 23)
+    CALL model.neurons(temp)
+    CALL model.operator()
+    PRINT newline
+
+END FOR
+
+END
