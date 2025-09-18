@@ -1,0 +1,42 @@
+START
+
+DEFINE FUNCTION bubble_sort_words(words)
+    SET n = length of words
+    FOR i = 0 to n-1
+        FOR j = 0 to n-i-2
+            IF first letter of words[j] > first letter of words[j+1]
+                SWAP words[j] and words[j+1]
+            END IF
+        END FOR
+    END FOR
+    RETURN words
+END FUNCTION
+
+
+DEFINE FUNCTION bubble_sort_chars(chars)
+    SET n = length of chars
+    FOR i = 0 to n-1
+        FOR j = 0 to n-i-2
+            IF chars[j] > chars[j+1]
+                SWAP chars[j] and chars[j+1]
+            END IF
+        END FOR
+    END FOR
+    RETURN chars
+END FUNCTION
+
+
+MAIN PROGRAM
+SET text = "I am Rasikh"
+
+SPLIT text into words_list
+CALL bubble_sort_words(words_list) → sorted_words
+
+REMOVE spaces from text → char_list
+CALL bubble_sort_chars(char_list) → sorted_chars
+
+PRINT "Original String: ", text
+PRINT "Sorted by Words: ", sorted_words
+PRINT "Sorted by Characters: ", sorted_chars
+
+END

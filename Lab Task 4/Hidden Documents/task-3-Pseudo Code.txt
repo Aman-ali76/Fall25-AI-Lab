@@ -1,0 +1,42 @@
+START
+
+DEFINE FUNCTION is_even(n)
+    RETURN (n MOD 2 == 0)
+
+
+DEFINE FUNCTION card_validator(number)
+    IF number is not numeric
+        RETURN "Invalid input. Please enter digits only"
+    
+    CONVERT number into list of digits
+    
+    REMOVE last digit → check_digit
+    REVERSE remaining digits
+    
+    FOR each digit with index i in digits
+        IF index i is even
+            DOUBLE digit
+        END IF
+    END FOR
+    
+    FOR each digit in digits
+        IF digit > 9
+            SUBTRACT 9 from digit
+        END IF
+    END FOR
+    
+    SET total_sum = sum of digits + check_digit
+    
+    IF total_sum MOD 10 == 0
+        RETURN "Your Card is Valid"
+    ELSE
+        RETURN "Your Card is Invalid"
+END FUNCTION
+
+
+MAIN PROGRAM
+ASK user for card number → input_number
+PRINT card_validator(input_number)
+
+END
+

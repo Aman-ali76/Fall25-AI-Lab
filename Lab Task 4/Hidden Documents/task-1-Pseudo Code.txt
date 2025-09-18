@@ -1,0 +1,15 @@
+START
+
+SET string = "Kuch Bhi; Kuch, Bhi!"
+SET new_string = ""
+
+FOR each character in string
+    IF character is alphabet OR character is space
+        ADD character to new_string
+    ELSE
+        SKIP
+END FOR
+
+PRINT new_string
+
+END

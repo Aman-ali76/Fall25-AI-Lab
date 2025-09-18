@@ -4,4 +4,5 @@ for char in string:
     if char.isalpha() or char == " ":
         new_string += char
 
-print(new_string)
+print("Old String : ",string)
+print("Without Punctuation : ",new_string)
