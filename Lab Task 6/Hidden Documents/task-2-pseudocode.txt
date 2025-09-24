@@ -1,0 +1,24 @@
+FUNCTION BFS_List_Queue(start, goal):
+    queue ← [start]
+    visited ← empty list
+
+    WHILE queue is not empty DO
+        node ← REMOVE first element from queue
+
+        IF node not in visited THEN
+            PRINT node
+            ADD node to visited
+
+            IF node = goal THEN
+                PRINT "Goal reached!"
+                RETURN visited
+            END IF
+
+            FOR each child IN tree[node] DO
+                IF child not in visited THEN
+                    ADD child to queue
+                END IF
+            END FOR
+        END IF
+    END WHILE
+END FUNCTION

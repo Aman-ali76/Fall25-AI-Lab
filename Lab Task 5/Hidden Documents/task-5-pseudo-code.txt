@@ -1,0 +1,25 @@
+DFS(tree, start, goal):
+    CREATE an empty stack
+    PUSH start onto stack
+    CREATE an empty list visited
+
+    WHILE stack is not empty DO
+        node ← POP from stack
+
+        IF node is not in visited THEN
+            PRINT node
+            ADD node to visited
+
+            FOR each child of node in REVERSE order DO
+                PUSH child onto stack
+            END FOR
+        END IF
+    END WHILE
+END DFS
+
+// Usage:
+SET start_node = 'A'
+SET goal_node = 'F'
+PRINT "Starting Node is:", start_node, "With Goal Node:", goal_node
+CALL DFS(tree, start_node, goal_node)
+PRINT visited

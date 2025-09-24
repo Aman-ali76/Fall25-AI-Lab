@@ -1,0 +1,22 @@
+FUNCTION BFS_Recursive(level_nodes, goal):
+    IF level_nodes is empty THEN
+        RETURN
+
+    next_level ← empty list
+
+    FOR each node IN level_nodes DO
+        PRINT node
+        ADD node to visited
+
+        IF node = goal THEN
+            PRINT "Goal reached!"
+            RETURN
+        END IF
+
+        FOR each child IN tree[node] DO
+            ADD child to next_level
+        END FOR
+    END FOR
+
+    CALL BFS_Recursive(next_level, goal)
+END FUNCTION
