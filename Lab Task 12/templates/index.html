@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>House Price Predictor</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+  <div class="container py-5">
+    <h1 class="text-center mb-5 text-primary">🏡 House Price Predictor</h1>
+
+    <div class="card shadow-lg p-4 bg-white rounded-4">
+      <form method="POST">
+        <!-- Bedrooms, Bathrooms, Living Area -->
+        <div class="row g-4 mb-3 section-card p-3 rounded-3">
+          <h5 class="mb-3">House Details</h5>
+          {% for feature, icon, min_val, max_val in [
+            ('bedrooms','fa-bed',1,10),
+            ('bathrooms','fa-bath',1,10),
+            ('sqft_living','fa-ruler-combined',300,10000),
+            ('sqft_lot','fa-tree',500,20000)
+          ] %}
+          <div class="col-md-3">
+            <label for="{{ feature }}" class="form-label">{{ feature.replace('_',' ').title() }}</label>
+            <div class="input-group">
+              <span class="input-group-text"><i class="fa-solid {{ icon }}"></i></span>
+              <input type="range" class="form-range" id="{{ feature }}" name="{{ feature }}" min="{{ min_val }}" max="{{ max_val }}" value="{{ min_val }}" oninput="this.nextElementSibling.value=this.value">
+              <output>{{ min_val }}</output>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+
+        <!-- Floors, Waterfront, View, Condition -->
+        <div class="row g-4 mb-3 section-card p-3 rounded-3">
+          <h5 class="mb-3">Structure & View</h5>
+          {% for feature, icon, min_val, max_val in [
+            ('floors','fa-layer-group',1,5),
+            ('waterfront','fa-water',0,1),
+            ('view','fa-eye',0,5),
+            ('condition','fa-star',1,5)
+          ] %}
+          <div class="col-md-3">
+            <label for="{{ feature }}" class="form-label">{{ feature.replace('_',' ').title() }}</label>
+            <div class="input-group">
+              <span class="input-group-text"><i class="fa-solid {{ icon }}"></i></span>
+              <input type="range" class="form-range" id="{{ feature }}" name="{{ feature }}" min="{{ min_val }}" max="{{ max_val }}" value="{{ min_val }}" oninput="this.nextElementSibling.value=this.value">
+              <output>{{ min_val }}</output>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+
+        <!-- Square Foot Above/Basement, Year Built/Renovated -->
+        <div class="row g-4 mb-3 section-card p-3 rounded-3">
+          <h5 class="mb-3">Construction Details</h5>
+          {% for feature, icon, min_val, max_val in [
+            ('sqft_above','fa-building',300,8000),
+            ('sqft_basement','fa-house-chimney',0,5000),
+            ('yr_built','fa-calendar',1900,2025),
+            ('yr_renovated','fa-wrench',0,2025)
+          ] %}
+          <div class="col-md-3">
+            <label for="{{ feature }}" class="form-label">{{ feature.replace('_',' ').title() }}</label>
+            <div class="input-group">
+              <span class="input-group-text"><i class="fa-solid {{ icon }}"></i></span>
+              <input type="range" class="form-range" id="{{ feature }}" name="{{ feature }}" min="{{ min_val }}" max="{{ max_val }}" value="{{ min_val }}" oninput="this.nextElementSibling.value=this.value">
+              <output>{{ min_val }}</output>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+
+        <!-- Dropdowns -->
+        <div class="row g-4 mb-4 section-card p-3 rounded-3">
+          <h5 class="mb-3">Location</h5>
+          <div class="col-md-4">
+            <label for="street" class="form-label"><i class="fa-solid fa-road me-1"></i>Street</label>
+            <select class="form-select" name="street" id="street">
+              {% for s in street_options %}
+              <option value="{{ s }}">{{ s }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="col-md-4">
+            <label for="city" class="form-label"><i class="fa-solid fa-city me-1"></i>City</label>
+            <select class="form-select" name="city" id="city">
+              {% for c in city_options %}
+              <option value="{{ c }}">{{ c }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="col-md-4">
+            <label for="statezip" class="form-label"><i class="fa-solid fa-map-location-dot me-1"></i>StateZip</label>
+            <select class="form-select" name="statezip" id="statezip">
+              {% for sz in statezip_options %}
+              <option value="{{ sz }}">{{ sz }}</option>
+              {% endfor %}
+            </select>
+          </div>
+        </div>
+
+        <!-- Submit -->
+        <div class="text-center mt-4">
+          <button type="submit" class="btn btn-gradient btn-lg px-5">
+            <i class="fa-solid fa-magnifying-glass-dollar me-2"></i>Predict Price
+          </button>
+        </div>
+      </form>
+
+      {% if prediction %}
+      <div class="price-card mt-4 p-4 text-center rounded-4 shadow-lg animate-price">
+        <h3>💰 Predicted Price</h3>
+        <h2>${{ prediction }}</h2>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+
+  <!-- Sparkle Cursor Effect -->
+  <script src="https://cdn.jsdelivr.net/gh/ganlanyuan/tiny-sparkle-cursor@master/sparkle.js"></script>
+  <script>
+    // Animate price card
+    const priceCard = document.querySelector('.animate-price');
+    if(priceCard){
+      priceCard.animate([{transform: 'scale(0.8)'}, {transform:'scale(1)'}], {duration: 500, fill:'forwards'});
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,36 @@
+START
+
+1. Import pandas library
+   IMPORT pandas as pd
+
+2. Load the dataset
+   dataset = pd.read_csv('filename.csv')
+
+3. Print first 5 rows
+   dataset.head()
+
+4. Print last 5 rows
+   dataset.tail()
+
+5. Print number of rows and columns
+   rows = dataset.shape[0]
+   columns = dataset.shape[1]
+   PRINT rows, columns
+
+6. Check for missing values in each column
+   missing_values = dataset.isnull().sum()
+   PRINT missing_values
+
+7. Fill missing values
+   IF using mean:
+       dataset = dataset.fillna(dataset.mean())
+   ELSE IF using median:
+       dataset = dataset.fillna(dataset.median())
+   ELSE IF using mode:
+       dataset = dataset.fillna(dataset.mode())
+
+8. Print data types of all columns
+   datatypes = dataset.dtypes
+   PRINT datatypes
+
+END

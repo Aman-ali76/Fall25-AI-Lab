@@ -1,0 +1,39 @@
+START
+
+1. Import Pandas and NumPy libraries
+
+2. Load CSV dataset
+   data = pd.read_csv('dataset.csv')
+
+3. Print number of rows and columns
+   PRINT data.shape
+
+4. Check for missing values
+   missing_values = np.sum(pd.isnull(data))
+   PRINT missing_values
+
+5. Check unique values of a specific column
+   PRINT data['columnname'].unique()
+
+6. Fill missing values in a column
+   mode_value = data['columnname'].mode()[0]
+   data['columnname'] = data['columnname'].fillna(mode_value)
+
+7. Convert column datatype to integer
+   data['columnname'] = data['columnname'].astype(int)
+
+8. Drop unnecessary columns
+   data.drop('id', axis=1, inplace=True)
+
+9. Check datatypes of all columns
+   PRINT data.dtypes
+
+10. Split dataset into features (X) and target (Y)
+    X = data.iloc[:, 0:-1]
+    Y = data.iloc[:, -1]
+
+11. Convert categorical columns to integers
+    cat_columns = X.select_dtypes(['object']).columns
+    X[cat_columns] = X[cat_columns].apply(factorize to integer)
+
+END

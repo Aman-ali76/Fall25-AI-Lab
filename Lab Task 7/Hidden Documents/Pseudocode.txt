@@ -1,0 +1,29 @@
+A_STAR(start, goal):
+    OpenList = {start}
+    ClosedList = {}
+
+    g(start) = 0
+    parent(start) = start
+
+    WHILE OpenList is not empty:
+        n = node in OpenList with lowest (g + h)
+
+        IF n == goal:
+            return reconstructed path
+
+        FOR each neighbor m of n:
+            cost = g(n) + weight(n, m)
+
+            IF m not in OpenList and m not in ClosedList:
+                OpenList.add(m)
+                parent(m) = n
+                g(m) = cost
+
+            ELSE IF cost < g(m):
+                update g(m) and parent(m)
+                if m in ClosedList:
+                    move to OpenList
+
+        move n to ClosedList
+
+    RETURN "No path"

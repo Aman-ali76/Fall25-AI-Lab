@@ -1,0 +1,26 @@
+START
+
+1. Import Flask and render_template
+
+2. Initialize Flask app
+   app = Flask(__name__)
+
+3. Define route for home page
+   @app.route('/')
+   FUNCTION home():
+       RETURN render_template('index.html')
+
+4. Run the Flask app
+   IF __name__ == '__main__':
+       app.run(debug=True)
+
+5. Create index.html in templates folder
+   Include HTML content (e.g., Welcome message)
+
+6. Create static files (CSS, JS) in static folder
+   Link static files in HTML
+
+7. Open browser and access localhost
+   CHECK if page renders correctly
+
+END

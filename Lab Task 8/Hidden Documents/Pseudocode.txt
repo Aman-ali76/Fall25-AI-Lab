@@ -1,0 +1,28 @@
+START
+
+val = list of leaf values
+total_depth = log2(length of val)
+
+FUNCTION minimaxi(depth, index, isMinTurn, values, total_depth):
+
+    IF depth == total_depth:
+        RETURN values[index]
+
+    IF isMinTurn == TRUE:
+        left_value  = minimaxi(depth + 1, index * 2,     FALSE, values, total_depth)
+        right_value = minimaxi(depth + 1, index * 2 + 1, FALSE, values, total_depth)
+        RETURN minimum(left_value, right_value)
+
+    ELSE:
+        left_value  = minimaxi(depth + 1, index * 2,     TRUE, values, total_depth)
+        right_value = minimaxi(depth + 1, index * 2 + 1, TRUE, values, total_depth)
+        RETURN maximum(left_value, right_value)
+
+END FUNCTION
+
+
+result = minimaxi(0, 0, TRUE, val, total_depth)
+
+PRINT "The Result value is:", result
+
+END

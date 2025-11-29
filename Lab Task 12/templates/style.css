@@ -1,0 +1,45 @@
+body {
+    background: linear-gradient(135deg, #c3ecff, #e0f7fa);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    cursor: url('https://i.imgur.com/oO7vL5k.png'), auto;
+}
+
+h1 {
+    font-weight: 700;
+}
+
+.section-card {
+    background: #ffffffaa;
+    border-radius: 20px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+}
+
+.btn-gradient {
+    background: linear-gradient(90deg, #0d6efd, #6610f2);
+    color: white;
+    border: none;
+    font-weight: 600;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.btn-gradient:hover {
+    transform: scale(1.05);
+    box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+}
+
+.input-group-text {
+    background-color: #0d6efd;
+    color: white;
+    border: none;
+}
+
+.price-card {
+    background: linear-gradient(90deg, #28a745, #20c997);
+    color: white;
+    font-weight: 600;
+    transition: transform 0.3s;
+}
+
+.price-card:hover {
+    transform: scale(1.05);
+}
