@@ -6,7 +6,7 @@ START
    X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size=0.2)
 
 3. Choose SVC model for testing
-   model = SVC()
+   model = LinearRegression()
 
 4. Train the model on training data
    model.fit(X_train, Y_train)
@@ -15,7 +15,8 @@ START
    Y_pred = model.predict(X_test)
 
 6. Calculate accuracy
-   accuracy = accuracy_score(Y_test, Y_pred)
+   r2 = r2_score(test_y, y_pred_linear)
+   mse = mean_squared_error(test_y, y_pred_linear)
    PRINT accuracy
 
 END
