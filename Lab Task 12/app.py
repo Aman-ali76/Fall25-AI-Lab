@@ -1,61 +1,78 @@
-import pickle
-import os
-from flask import Flask, render_template, request
-import pickle
 import pandas as pd
+import numpy as np
+import pickle
+from flask import Flask, render_template, request
 
 
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-model_path = os.path.join(BASE_DIR, 'model_svc.pkl')
+try:
+    
+    model = pickle.load(open('model.pkl', 'rb'))
+    print("Model loaded successfully: model.pkl")
+except FileNotFoundError:
+    print("WARNING: model.pkl not found. Prediction will use a dummy value.")
+    
+    class DummyModel:
+        def predict(self, X):
+            
+            return np.array([2.5])
+    model = DummyModel()
+except Exception as e:
+    print(f"Error loading model: {e}")
+    
+    class DummyModel:
+        def predict(self, X):
+            return np.array([2.5])
+    model = DummyModel()
+
 
 app = Flask(__name__)
 
-
-model_svc = pickle.load(open(model_path, 'rb'))
-
-
-street_options = [1502, 3858, 2265, 4219]
-city_options = [36, 35, 18, 3]
-statezip_options = [62, 58, 26, 7]
-
-@app.route('/', methods=['GET', 'POST'])
+@app.route('/', methods=['GET'])
 def index():
-    prediction = None
-    if request.method == 'POST':
+    """Renders the main prediction form."""
+    return render_template('index.html')
+
+@app.route('/predict', methods=['POST'])
+def predict():
+    """Handles the form submission and returns the prediction."""
+    try:
+        
+        data = {
+            'StudentID': int(request.form['StudentID']),
+            'Gender': int(request.form['Gender']),
+            'Age': int(request.form['Age']),
+            'StudyHoursPerWeek': float(request.form['StudyHoursPerWeek']),
+            'AttendanceRate': float(request.form['AttendanceRate']),
+            'Major': int(request.form['Major']),
+            'PartTimeJob': int(request.form['PartTimeJob']),
+            'ExtraCurricularActivities': int(request.form['ExtraCurricularActivities'])
+        }
+
+        
+        
+        feature_vector = np.array([
+            data['StudentID'], data['Gender'], data['Age'], data['StudyHoursPerWeek'],
+            data['AttendanceRate'], data['Major'], data['PartTimeJob'], data['ExtraCurricularActivities']
+        ]).reshape(1, -1)
+
+        
+        prediction = model.predict(feature_vector)[0]
+        
+        
+        predicted_gpa = f"{prediction:.2f}"
+
+        return render_template(
+            'index.html', 
+            prediction_text=f'Predicted GPA: {predicted_gpa}',
+            
+            input_data=data
+        )
+
+    except ValueError:
+        return render_template('index.html', prediction_text='Error: Please enter valid numerical inputs for all fields.', input_data=request.form)
+    except Exception as e:
+        return render_template('index.html', prediction_text=f'An error occurred: {e}', input_data=request.form)
+
+if __name__ == '__main__':
     
-        try:
-            input_data = {
-                'bedrooms': [int(request.form['bedrooms'])],
-                'bathrooms': [int(request.form['bathrooms'])],
-                'sqft_living': [int(request.form['sqft_living'])],
-                'sqft_lot': [int(request.form['sqft_lot'])],
-                'floors': [float(request.form['floors'])],
-                'waterfront': [int(request.form['waterfront'])],
-                'view': [int(request.form['view'])],
-                'condition': [int(request.form['condition'])],
-                'sqft_above': [int(request.form['sqft_above'])],
-                'sqft_basement': [int(request.form['sqft_basement'])],
-                'yr_built': [int(request.form['yr_built'])],
-                'yr_renovated': [int(request.form['yr_renovated'])],
-                'street': [int(request.form['street'])],
-                'city': [int(request.form['city'])],
-                'statezip': [int(request.form['statezip'])]
-            }
-
-        
-            df = pd.DataFrame(input_data)
-
-        
-            prediction = model_svc.predict(df)[0]
-
-        except Exception as e:
-            prediction = f"Error: {str(e)}"
-
-    return render_template('index.html',
-                           prediction=prediction,
-                           street_options=street_options,
-                           city_options=city_options,
-                           statezip_options=statezip_options)
-
-if __name__ == "__main__":
     app.run(debug=True)
